@@ -1,7 +1,7 @@
 ---
 # the default layout is 'page'
 icon: fas fa-info-circle
-order: 4
+order: 5
 ---
 
 Greetings, I'm Bram (a.k.a Hopperpop), and live and work in Belgium. I have a passion for automating things, which started during my teenage years and has never left me. My professional background includes working in the automotive industry, where I specialized in controlling dynamic test benches. Currently, I'm active in the field of industrial machine building.
