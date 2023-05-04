@@ -98,7 +98,7 @@ comments:
     issue_term: # < url | pathname | title | ...>
   # Giscus options › https://giscus.app
   giscus:
-    repo: Hoppperpop/Hopperpop.github.io # <gh-username>/<repo>
+    repo: Hopperpop/Hopperpop.github.io # <gh-username>/<repo>
     repo_id: R_kgDOJdm2ig 
     category: Announcements
     category_id: DIC_kwDOJdm2is4CWMAp
