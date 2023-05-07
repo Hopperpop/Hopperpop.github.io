@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Garage door control with shelly
-date: 2023-06-06 13:00 +0200
+date: 2023-05-07 13:00 +0200
 categories: [Personal projects, Home automation]
 tags: [Shelly, Home automation, Garage door, Sdr, Krial, Tormatic]
 image: /assets/img/GarageDoor/GarageDoor_Title.jpg
