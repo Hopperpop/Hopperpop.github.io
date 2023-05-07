@@ -35,13 +35,13 @@ But imagine you left home without closing the garage. I haven't done that yet, b
 
 Fast forward a few months, and I finally decided to go through all of my appliance manuals. Initially, I just wanted to check if my water softener was working correctly, but I ended up learning more than I anticipated. For example, I discovered that my kitchen hood's built-in light could be dimmed. The garage door manual also caught my eye, and this time I read everything. I learned that it was possible to assign light control to one of the buttons on the remote. Additionally, I discovered extended functionality for partial opening or ventilation opening. The latter option sets the door in a position where there is only an opening at the top for air to come in and automatically closes again after one hour. This feature could also be mapped to a remote button. Ultimately, I had a remote with three buttons assigned to three functions: open-close, ventilation, and light. The idea of using the remote for something else was immediately dropped.
 
-![Manual garage motor]({{ "/assets/img/GarageDoor/GarageDoor_Manual.JPG" | relative_url }})
+![Manual garage motor]({{ "/assets/img/GarageDoor/GarageDoor_Manual.jpg" | relative_url }})
 
 One curious thing in the diagrams was the 180Ω resistor in series with a button. It wasn't explained what it did, but I could only hope. And after testing: Yes, it triggers the extended functionality similar to the remote. This means I could trigger ventilation mode any time I want. It doesn't matter if the door is open or closed, pressing it will let the door position go between ventilation and closed. Both positions are good enough if you forgot to close your garage. And it will eventually always fully close after the 1 hour timeout. As Automating ventilation could also become interesting in the warmer summer days, I became hooked.   
     
 Now it was only a matter of connecting a Shelly-1 to it. I thought I needed more materials and tools than what I had lying around to build it properly, but boy, I was wrong. It was like they made it to accommodate a Shelly module. A 24V power source was available to power the module, and they even left just enough space in the casing to squeeze a Shelly in between. With only three wires, a resistor, a WiFi module, and 5 minutes of work, I had a solution instead of spending €275 on a smart home kit. I was happy.
 
-![Shelly ]({{ "/assets/img/GarageDoor/GarageDoor_Motor.JPG" | relative_url }})
+![Shelly ]({{ "/assets/img/GarageDoor/GarageDoor_Motor.jpg" | relative_url }})
 
 In the future, I will add a sensor to the shelly to detect if the garage door is fully closed. But the current solution can already be used.
 Don't think a problem is too hard to solve because many times there is a simple solution waiting around the corner.
