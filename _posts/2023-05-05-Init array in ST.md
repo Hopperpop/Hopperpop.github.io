@@ -15,14 +15,14 @@ In this post, I would like to go over the different ways to initialize an array 
 Let's start simple by initializing an array of a standard data type.:
 ```iecst
 VAR
-	aIntArray:	ARRAY[0..4] OF INT := [0,1,2,3,4];
+	aIntArray:		ARRAY[0..4] OF INT := [0,1,2,3,4];
 END_VAR
 ```
 ### - Partial initialization
 If you only want to initialize the first few elements, you can do so without any issues by using the following syntax:
 ```iecst
 VAR
-	aIntArray:	ARRAY[0..4] OF INT := [0,1];
+	aIntArray:		ARRAY[0..4] OF INT := [0,1];
 END_VAR
 ```
 ### - Repeated values
@@ -45,7 +45,7 @@ VAR
 			[ 2 , 3 ],
 			[ 4 , 5 ]
 		] 	*)
-	IntArray_2:	ARRAY[0..2, 0..1] OF INT := [ 6(123) ];
+	IntArray_2:		ARRAY[0..2, 0..1] OF INT := [ 6(123) ];
 	(*	[
 			[ 123 , 123 ],
 			[ 123 , 123 ],
@@ -58,7 +58,7 @@ VAR
 			[ 2 , 2 ]
 		]	*)
 	//Sadly the following syntax to have rows with the same value, doesn't work.
-	aIntArray_4:	ARRAY[0..2, 0..1] OF INT := [ 3(0,1) ]; //Unexpected array initialisation
+	aIntArray_4:	ARRAY[0..2, 0..1] OF INT := [ 3(0,1) ]; //Unexpected array initialization
 END_VAR
 ```
 ### - Array of array
@@ -104,7 +104,7 @@ END_VAR
 
 VAR
 	//Works
-	aIntArray_1:	ARRAY[1..X, 1..Y] OF INT		:= [ (X*Y)(1) ];
+	aIntArray_1:	ARRAY[1..X, 1..Y] OF INT			:= [ (X*Y)(1) ];
 	//Doesn't works!!!!!
 	aIntArray_2:	ARRAY[1..X] OF ARRAY[1..Y] OF INT 	:= [  X(  [  Y (1) ] )];
 	//Works
@@ -113,7 +113,7 @@ VAR
 	aIntArray_4:	ARRAY[1..X] OF ARRAY[1..Y] OF INT 	:= [ (X)( [ (Y)(1) ] )];	
 
 	//Also works
-	aIntArray_5:	ARRAY[1..(2*X)] OF INT 			:= [ (X-Y)(1), X(1), Y(1) ];
+	aIntArray_5:	ARRAY[1..(2*X)] OF INT 				:= [ (X-Y)(1), X(1), Y(1) ];
 END_VAR
 ```
 
@@ -123,8 +123,8 @@ Let's define a simple structure:
 ```iecst
 TYPE ST_Struct :
 STRUCT
-	xBool:		BOOL;
-	lrReal:		LREAL;
+	xBool:			BOOL;
+	lrReal:			LREAL;
 END_STRUCT
 END_TYPE
 ```    
@@ -132,7 +132,7 @@ END_TYPE
 For initialization we can do the following. Not all elements needs to be defined. The missing elements will stay at their default value.
 ```iecst
 VAR
-	aStruct: ARRAY [0..3] OF ST_Struct := 	[
+	aStruct: 		ARRAY [0..3] OF ST_Struct := 	[
 							(xBool := TRUE),
 							(lrReal := 1.0),
 							(xBool := FALSE, lrReal := -3.0)
@@ -144,7 +144,7 @@ END_VAR
 Now we are coming to the point where I (re-)discoverd the syntax for initializing an array of structures with repeated elements. This was the main reason why I created this blog post, as I haven't seen anyone else documenting it.
 ```iecst
 VAR
-	aStruct: ARRAY [0..5] OF ST_Struct := 	[ 
+	aStruct: 		ARRAY [0..5] OF ST_Struct := 	[ 
 							4((xBool := TRUE)),
 							(xBool := TRUE, lrReal := 5.0)
 						];
@@ -170,14 +170,16 @@ END_VAR
 ```iecst
 PROPERTY p_Prop : INT
 //---Getter---
-p_Prop 	:= iProp;
+p_Prop 		:= iProp;
 //---Setter---
-iProp 	:= p_Prop;
+iProp 		:= p_Prop;
 ```
 To initialize an array of these function blocks:
 ```iecst
 VAR										
-	aFb_Test: ARRAY [0..1] OF FB_Test := [ 2((p_Prop := 5, iVar := 2, iIn := 6, iOut := 9)) ];
+	aFb_Test: 		ARRAY [0..1] OF FB_Test := [ 
+							2((p_Prop := 5, iVar := 2, iIn := 6, iOut := 9))
+					];
 END_VAR
 ```
 ### - FB_init
@@ -189,7 +191,7 @@ METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains: 	BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode: 	BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
-	iPara:		INT;
+	iPara:			INT;
 END_VAR
 //------------------------------------------------
 p_Prop := iPara;
@@ -199,21 +201,21 @@ These examples will call `FB_init` with the parameter `iPara`. This will set the
 ```iecst
 VAR										
 	//All these examples will both have p_Prop and iProp equal to 2
-	aFb_Test1: ARRAY [0..1] OF FB_Test(2);
-	aFb_Test2: ARRAY [0..1] OF FB_Test(iPara := 2);
+	aFb_Test1: 		ARRAY [0..1] OF FB_Test(2);
+	aFb_Test2: 		ARRAY [0..1] OF FB_Test(iPara := 2);
 	//Somehow this is also seen as 'init all fb's with the same value'
-	aFb_Test3: ARRAY [0..1] OF FB_Test[(iPara := 2)]; 
+	aFb_Test3: 		ARRAY [0..1] OF FB_Test[(iPara := 2)]; 
 	
 	//Initialize the function blocks with different values
-	aFb_Test4: ARRAY [0..1] OF FB_Test[ (iPara := 1),(iPara := 2) ];
+	aFb_Test4: 		ARRAY [0..1] OF FB_Test[ (iPara := 1),(iPara := 2) ];
 	
 	//Syntax error: FB-Init-Initializers(2) does not match the number of array-elements(3)
-	aFb_Test5: ARRAY [0..2] OF FB_Test[ (iPara := 1),(iPara := 2) ];
+	aFb_Test5:		ARRAY [0..2] OF FB_Test[ (iPara := 1),(iPara := 2) ];
 	//Syntax error: Repeating of values can't be used with FB_init :-(
-	aFb_Test6: ARRAY [0..2] OF FB_Test[ 3((iPara := 1)) ];
+	aFb_Test6:		ARRAY [0..2] OF FB_Test[ 3((iPara := 1)) ];
 	
-	//Both FB_init and property intizalization
-	aFb_Test7: ARRAY [0..1] OF FB_Test(-1) := [ 2((p_Prop := 10)) ];
+	//Both FB_init and property initialization
+	aFb_Test7:		ARRAY [0..1] OF FB_Test(-1) := [ 2((p_Prop := 10)) ];
 	//=> The fb's will have p_Prop and iProp equal to 10. 
 	//Because FB_init is called first, and after that the initial assignments
 END_VAR
