@@ -15,7 +15,7 @@ tags:
 In part 1, we talked about how to implement a general node that can be used as a link in a linked list. This part is going to be about the master node who controls the full list.
 * Part 1 - Intro and node implementation
 * Part 2 - Master node implementation
-* Part 3 - Example usecase
+* Part 3 - Example use case
 
 ## Master node
 The master node is simply said the "point of contact" when someone wants to access the linked list. It will be responsible for keeping track of the list length and makes it simple to iterate over the list. The most important part is that the master node is always available, even if the list is empty. 
@@ -234,12 +234,12 @@ Try to change the size now with an online change to ex. 5. You will see that mas
 > Don't use this linked link implementation with arrays, or at least don't resize the arrays during online change!
 {: .prompt-warning }
 **Solution**
-: At the moment no. But it also doesn't make sense to use a linked list with arrays as we can simply use the array itself.    
+: At the moment no solution is know for this problem. But it also doesn't make sense to use a linked list with arrays as we can simply use the array itself to iterate over the items. A linked list is more useful when function blocks are spread out over different parts of the program, but you still want to have access to them all.
     
 **Cause**
-: When resizing an array, the `fb_init` and `fb_exit` method of all the function blocks are called  with a `bInCopyCode = TRUE`. CodeSys/TwinCAT doesn't differentiate between new elements or removed elements. If the array is copied, all the elements are flagged as copy. A behavior that isn't fully correct and should be addressed in newer versions.    
+: When resizing an array, the `fb_init` and `fb_exit` method of all the function blocks are called  with a `bInCopyCode = TRUE`. CodeSys/TwinCAT doesn't differentiate between new elements or removed elements. If the array is copied, all the elements are flagged as copy, even the new ones. 
 
 
 ## End
-Now that we have the basis for a linked list. We still don't know how to extend this functionality to make it reusable in all our applications. 
+Now that we have the basis for a linked list. We still don't know how to extend this functionality to make it reusable in all our existing function blocks. 
 In part 3 we will *lock all cars in our garage* and compare the performance of a linked list versus a standard array.

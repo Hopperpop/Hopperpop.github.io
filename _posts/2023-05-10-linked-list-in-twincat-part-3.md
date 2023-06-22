@@ -13,10 +13,10 @@ tags:
 - OOP
 - Linked list
 ---
-In the last part of this blog series, we use our linked list in basic application and test the performance of the extra overhead.
+In the last part of this blog series, we use our linked list in basic application and test the performance of the extra overhead. All the code from this blog series can be found [here](https://github.com/Hopperpop/TcLinkedList).
 * Part 1 - Intro and node implementation
 * Part 2 - Master node implementation
-* Part 3 - Example usecase
+* Part 3 - Example use case
 
 
 ## Locking cars
@@ -29,7 +29,7 @@ First we create an interface for our cars. It's not necessary, but it will impro
 INTERFACE ITF_Car
     PROPERTY p_Locked : BOOL
 ```
-The car function blocks is very simple. It contains a local variable to store the lock state. Implements `ITF_Car` interface, where the `p_Locked` property is directly mapped to the internal state. To make online viewing easy we add the `{attribute 'monitoring' := 'call'}` pragma (see [InfoSys](https://infosys.beckhoff.com/content/1033/tc3_plc_intro/2529692299.html)). The function block also extends our previous created `FB_LinkedList_Node`, to make all cars a potential list node.
+The car function blocks is very simple. It contains a local variable to store the lock state. Implements `ITF_Car` interface, where the `p_Locked` property is directly mapped to the internal state. To make online viewing easy we add the `{attribute 'monitoring' := 'call'}` pragma (see [InfoSys](https://infosys.beckhoff.com/content/1033/tc3_plc_intro/2529692299.html)) to this property. The function block also extends our previous created `FB_LinkedList_Node`, to make all cars a potential list node.
 ```iecst
 {attribute 'hide_all_locals'}
 FUNCTION_BLOCK FB_Car EXTENDS FB_LinkedList_Node IMPLEMENTS ITF_Car
@@ -54,14 +54,17 @@ FUNCTION_BLOCK FB_CarGroup EXTENDS FB_LinkedList_Master IMPLEMENTS ITF_Car
 VAR
 END_VAR
 ```
-`p_Locked` get
 ```iecst
+{attribute 'monitoring' := 'call'}
+PROPERTY p_Locked : BOOL
+```
+```iecst
+//----Get----
 VAR
 	i:		UINT;
 	itfCar:	ITF_Car;
 END_VAR
-```
-```iecst
+
 p_Locked := TRUE;
 
 FOR i := 0 TO ListLength DO
@@ -70,14 +73,13 @@ FOR i := 0 TO ListLength DO
 	END_IF
 END_FOR
 ```
-`p_Locked` set
 ```iecst
+//----Set----
 VAR
 	i:		UINT;
 	itfCar:	ITF_Car;
 END_VAR
-```
-```iecst
+
 FOR i := 0 TO ListLength DO
 	IF __QUERYINTERFACE( mListGetNode(i), itfCar) THEN
 		itfCar.p_Locked := p_Locked;
@@ -87,7 +89,7 @@ END_FOR
 ### - __QUERYPOINTER & __QUERYINTERFACE
 The `__QUERYPOINTER` and `__QUERYINTERFACE` are both extensions of IEC61131-3. They aren't used a lot, but they provide some interesting OOP mechanisms. These operators make it possible to make a clear separation with the linked list implementation and the function block that extends the list.    
 
-`__QUERYPOINTER` will return the pointer to the function block that implements the given interface. If we ask the master node to return the node interface of the first element. We can now convert that interface to a pointer to the containing function block. In our example a pointer to `FB_Car`. By having the pointer we have full control over the car. The return value of this operator is a boolean that let us know if the casting was successful.  
+`__QUERYPOINTER` will return the pointer to the function block that implements the given interface. If we ask the master node to return the node interface of the first element. We can now convert that node interface to a pointer to the containing function block. In our example a pointer to `FB_Car`. By having the pointer we have full control over the car. The return value of this operator is a boolean that let us know if the casting was successful.  
 
 > For the operator to work, the requested interface need to extend `__System.IQueryInterface`. In part 1 we did this with the ITF_LinkedList_Node interface.
 {: .prompt-tip }

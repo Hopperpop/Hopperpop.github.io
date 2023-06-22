@@ -11,15 +11,16 @@ tags:
 - OOP
 - Linked list
 mermaid: true
+image: /assets/img/LinkedList/LinkedList_Title.png
 date: 2023-05-09 08:16 +0000
 ---
 ---
 Object oriented programming brings many new patterns to PLC programming. Today I want to talk about one of them: **Linked lists**.
 
-Because the length of the post was getting to long, it's split in 3 parts:
+Because the length is to long to cover everything in one post, it's split into 3 parts:
 * Part 1 - Intro and node implementation
 * Part 2 - Master node implementation
-* Part 3 - Example usecase
+* Part 3 - Example use case
 
 ## Intro
 Many times during programming you come to a problem where you want to go over all instances of a specific function block and change a property or call a method. Let's say we have a parking full of cars, and we want to lock them all. Without OOP technics you are stuck with some piece of code in all instances that is triggered by a shared variable (global or static). Every car polls the trigger, and locks when the trigger becomes high. As complexity increases, the code will become more and more a real spaghetti monster.  
@@ -106,7 +107,7 @@ To make it clearer what we are going to build, a list of design choices are list
 **Master node**
 * Always available even if the list is empty.
 * Keeps track of the list size. Because of this, we only allow the master to remove or add nodes.
-* Keeps a link to the last accessed node. This can make iterating over the list easier.
+* Keeps a link to the last accessed node. This can make iterating over the list easier and faster.
 * By linking the last node to the master node (=circular), it becomes trivial to add a new node to the end of the list.    
 
 **Linking**
@@ -199,7 +200,7 @@ Lets add a property to set/get the master interface. The *setter* will have extr
 ```iecst
 PROPERTY p_LinkMaster : ITF_LinkedList_Master
 ```
-``iecst
+```iecst
 //----Get----
 p_LinkMaster := itf_LinkMaster;
 ```
