@@ -9,9 +9,9 @@ categories:
 tags:
 - IEC 61131-3
 - ST
-- Array
 - OOP
 - Linked list
+image: /assets/img/LinkedList/LinkedList_Title.png
 ---
 In the last part of this blog series, we use our linked list in basic application and test the performance of the extra overhead. All the code from this blog series can be found [here](https://github.com/Hopperpop/TcLinkedList).
 * Part 1 - Intro and node implementation

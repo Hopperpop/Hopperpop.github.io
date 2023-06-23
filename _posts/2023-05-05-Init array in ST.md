@@ -2,7 +2,7 @@
 layout: post
 title: Init array in ST
 date: 2023-05-05 12:05 +0200
-categories: [Industrial automation, IEC 61131-3 ]
+categories: [Automation, IEC 61131-3 ]
 tags: [IEC 61131-3, ST, Array, FB_init]
 image: /assets/img/InitArray.png
 ---

@@ -7,9 +7,9 @@ categories:
 tags:
 - IEC 61131-3
 - ST
-- Array
 - OOP
 - Linked list
+- FB_init
 mermaid: true
 image: /assets/img/LinkedList/LinkedList_Title.png
 date: 2023-05-09 08:16 +0000

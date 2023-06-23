@@ -8,9 +8,9 @@ categories:
 tags:
 - IEC 61131-3
 - ST
-- Array
 - OOP
 - Linked list
+image: /assets/img/LinkedList/LinkedList_Title.png
 ---
 In part 1, we talked about how to implement a general node that can be used as a link in a linked list. This part is going to be about the master node who controls the full list.
 * Part 1 - Intro and node implementation
