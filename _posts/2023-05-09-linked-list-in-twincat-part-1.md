@@ -17,7 +17,7 @@ date: 2023-05-09 08:16 +0000
 ---
 Object oriented programming brings many new patterns to PLC programming. Today I want to talk about one of them: **Linked lists**.
 
-Because the length is to long to cover everything in one post, it's split into 3 parts:
+Because the length is too long to cover everything in one post, it's split into 3 parts:
 * Part 1 - Intro and node implementation
 * Part 2 - Master node implementation
 * Part 3 - Example use case
@@ -37,7 +37,7 @@ VAR_GLOBAL
 END_VAR
 ```
 The programmer is responsible for maintaining the list. If he adds a car somewhere in the program he needs to add it to the list, otherwise it wont be locked together with the other cars.    
-You can see that this mistakes will easily happen the more cars are used and the bigger the parking becomes. A more advanced programmer would let the cars use `FB_init` to register themselves to the list. You can find an example of this in the famous [TcUnit](https://github.com/tcunit/TcUnit) framework. Where the function block pointer of a *testsuit* is automatically added to a global list:
+You can see that these mistakes will easily happen; the more cars are used and the bigger the parking becomes. A more advanced programmer would let the cars use `FB_init` to register themselves to the list. You can find an example of this in the famous [TcUnit](https://github.com/tcunit/TcUnit) framework. Where the function block pointer of a *testsuit* is automatically added to a global list:
 
 ```iecst
 METHOD FB_init : BOOL
@@ -50,7 +50,7 @@ END_VAR
 GVL_TcUnit.NumberOfInitializedTestSuites := GVL_TcUnit.NumberOfInitializedTestSuites + 1;    
 GVL_TcUnit.TestSuiteAddresses[GVL_TcUnit.NumberOfInitializedTestSuites] := THIS;
 ```
-As memory allocation is static in the Plc, array size is also fixed. (I'm ignoring the `__NEW` operator here.) That's why this implementation needs to define a maximum size to reserves an array which can hold enough elements for the application. If you go over that size, you will have problems.    
+As memory allocation is static in the Plc, array size is also fixed. (I'm ignoring the `__NEW` operator here.) That's why this implementation needs to define a maximum size to reserve an array which can hold enough elements for the application. If you go over that size, you will have problems.    
     
 A last point to take into account is that online changes can add, move and remove instances. The code should be able to handle this. References and pointers can become invalid after an online change, while interfaces are automatically adapted by TwinCAT.
 
@@ -62,7 +62,7 @@ flowchart LR
     Car2 ---> Car3
     Car3 -.-> CarX
 ```
-In a double linked list, instance don't only know the next instance, but also the previous instance.
+In a double linked list, a node not only knows the next node, but also the previous node.
 ```mermaid
 flowchart LR
     Car1 ---> Car2
@@ -70,7 +70,7 @@ flowchart LR
     Car2 ---> Car3
     Car3 ---> Car2
 ```
-A sentinel node, is dummy node that is added to the beginning or end to make sure there is always a node available even if the list is empty. I prefer to call this the *master* node.
+A sentinel node, is a dummy node that is added to the beginning or end to make sure there is always a node available even if the list is empty. I prefer to call this the *master* node.
 ```mermaid
 flowchart LR
     master((Car fleet))
@@ -102,7 +102,7 @@ To make it clearer what we are going to build, a list of design choices are list
     
 **Node**
 * Double linked: When a node gets removed, it glues both sides together to restore the link.
-* Keeps also a direct link to the master node. It makes many operations more easy and faster.    
+* Keeps also a direct link to the master node. It makes many operations easier and faster.    
 
 **Master node**
 * Always available even if the list is empty.
@@ -116,14 +116,14 @@ To make it clearer what we are going to build, a list of design choices are list
 ---
 
 ## Node implementation
-We start by defining the basic node interface that both the normal and master node will implement. It has two properties that gets/sets the interface to the previous and next node. `p_IsLinkMaster` will serve as a constant to differentiate between normal nodes and the master node. This serves as a failsafe to prevent infinite loops, as we create a circular list. The interface itself extends `__SYSTEM.IQueryInterface`. Later on in part 3, it will be explained why.
+We start by defining the basic node interface that both the normal and master node will implement. It has two properties that get/set the interface to the previous and next node. `p_IsLinkMaster` will serve as a constant to differentiate between normal nodes and the master node. This serves as a failsafe to prevent infinite loops, as we create a circular list. The interface itself extends `__SYSTEM.IQueryInterface`. Later on in part 3, it will be explained why.
 ```iecst
 INTERFACE ITF_LinkedList_Node EXTENDS __SYSTEM.IQueryInterface
     PROPERTY p_IsLinkMaster :   BOOL //Only getter
     PROPERTY p_ListNext :       ITF_LinkedList_Node
     PROPERTY p_ListPrevious :   ITF_LinkedList_Node
 ```
-Lets make a function block `FB_LinkedList_Node` that implements the previous created node interface and add some variables to store links to the neighbor nodes and master. You will find some [pragmas](https://help.codesys.com/api-content/2/codesys/3.5.14.0/en/_cds_f_pragmas_attribute/#ec094f22bdbea0cc0a8640e0142ad94-id-aedee98d4ed7b21ec0a8640e00abf50a) around to hide certain variables. This is optional to make online views more cleaner, and can be omitted if wanted. Pay close attention to `{attribute 'no_copy'}` pragmas as they will mostly serve a purpose during online changes.
+Lets make a function block `FB_LinkedList_Node` that implements the previous created node interface and add some variables to store links to the neighbor nodes and master. You will find some [pragmas](https://help.codesys.com/api-content/2/codesys/3.5.14.0/en/_cds_f_pragmas_attribute/#ec094f22bdbea0cc0a8640e0142ad94-id-aedee98d4ed7b21ec0a8640e00abf50a) around to hide certain variables. This is optional to make online views cleaner, and can be omitted if wanted. Pay close attention to `{attribute 'no_copy'}` pragmas as they will mostly serve a purpose during online changes.
 ```iecst
 {attribute 'hide_all_locals'}
 FUNCTION_BLOCK FB_LinkedList_Node IMPLEMENTS ITF_LinkedList_Node
@@ -222,7 +222,7 @@ IF NOT _bInCopyCode THEN //Set not called during process of copying function blo
 
 END_IF
 ```
-To finish it of, we want to remove a node when it's getting destroyed after the online change. This is done with the `FB_exit` method.
+To finish it off, we want to remove a node when it's getting destroyed after the online change. This is done with the `FB_exit` method.
 ```iecst
 METHOD FB_exit : BOOL
 VAR_INPUT
@@ -250,19 +250,19 @@ To understand how everything is handled during online changes, it's good to have
 * No further steps are taken, and the node is part of the list.
     
 **Online change node removed**
-* (1) `FB_exit` is called with `bInCopyCode := FALSE`. The node check if it’s connected to a master, and if so asks the master to remove himself from the list.
+* (1) `FB_exit` is called with `bInCopyCode := FALSE`. The node checks if it’s connected to a master, and if so asks the master to remove himself from the list.
     
 **Online change node moved in memory**
 * (1) On the old instance the `FB_exit` is called with `bInCopyCode := True`. The call does nothing, and the old instance is still in the list.
 * (2) A new instance is created and `FB_init` is called with `bInCopyCode := True`. The value of `bInCopyCode` is stored in `_bInCopyCode`.
 * (3) The external initial assignments are done, and the setter of `p_LinkMaster` is called with our defined master interface.
 * Because the local `_bInCopyCode` is true, nothing is set or done.
-* (5) All old values are copied to the new instance. Interfaces are automatically corrected by TwinCat, making the new instance still linked to it previous, next and master node.
+* (5) All old values are copied to the new instance. Interfaces are automatically corrected by TwinCat, making the new instance still linked to its previous, next and master node.
 * (6) During `FB_reint` the local `_bInCopyCode` is reset. During code execution setting of `p_LinkMaster` is possible again.
 
 ## Slot word
 
-And now we have a fully functional node function block that can be updated/moved/created/destroyed without braking the link.
-A last thing to note is that the `{attribute 'no_copy'}` pragma on `_bInCopyCode` is more a safety measurement in case the variable gets sets.
+And now we have a fully functional node function block that can be updated/moved/created/destroyed without breaking the link.
+A last thing to note is that the `{attribute 'no_copy'}` pragma on `_bInCopyCode` is more of a safety measurement in case the variable gets set.
 
 In the next part we will implement the master node functionality.

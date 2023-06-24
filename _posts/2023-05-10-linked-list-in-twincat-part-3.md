@@ -48,7 +48,7 @@ Locked := p_Locked;
 ```
 
 ### - FB_CarGroup
-The car group function block will be our master node of the linked list. It extends `FB_LinkedList_Master` and also implements `ITF_Car`. When writing the lock property it will (un)lock all cars! Reading it will return if all cars are locked. It possible to give this property another name like "p_LockAll" but by using the same interface and property name you create an abstraction between a single car and a car group. Neat!
+The car group function block will be our master node of the linked list. It extends `FB_LinkedList_Master` and also implements `ITF_Car`. When writing the lock property it will (un)lock all cars! Reading it will return if all cars are locked. It is possible to give this property another name like "p_LockAll" but by using the same interface and property name you create an abstraction between a single car and a car group. Neat!
 ```iecst
 FUNCTION_BLOCK FB_CarGroup EXTENDS FB_LinkedList_Master IMPLEMENTS ITF_Car
 VAR
@@ -95,7 +95,7 @@ The `__QUERYPOINTER` and `__QUERYINTERFACE` are both extensions of IEC61131-3. T
 {: .prompt-tip }
     
 The problem with using pointers is that they are not type safe. There is nothing that checks if the returned pointer is a car.  It only knows that the function block has implemented the ITF_LinkedList_Node interface. It possible that we expect a car, but it's actually a bicycle. And calling a car method on a bicycle, will cause an exception, putting your garage on fire!    
-The solution: `__QUERYINTERFACE`. This operator does the same thing but goes one step further. It checks if the found function block implements another interface. Basically we ask if it can convert the node interface to a car interface. If it's a yes, we lock the car. If it's a no because the node is a bicycle, we do nothing. This gives us the power to mix types in the linked list. If this isn't OOP, than I don't know what OOP is.    
+The solution: `__QUERYINTERFACE`. This operator does the same thing but goes one step further. It checks if the found function block implements another interface. Basically we ask if it can convert the node interface to a car interface. If it's a yes, we lock the car. If it's a no because the node is a bicycle, we do nothing. This gives us the power to mix types in the linked list. If this isn't OOP, then I don't know what OOP is.    
 
 ## Our first list
 Now that everything is explained lets just build our garage with our favorite cars. And test the functionality to lock a single car, or all cars.
@@ -180,7 +180,7 @@ END_IF
 ![First garage]({{ "/assets/img/LinkedList/SellBuyCars.webp" | relative_url }})
 
 ## Performance
-We can expect that the linked list with all the extra code will be slower than iterating over an array. To understand how much different, create a simple program that iterate over 10_000 cars.
+We can expect that the linked list with all the extra code will be slower than iterating over an array. To understand how much different, create a simple program that iterate over 10,000 cars.
 ```iecst
 PROGRAM PERFORMANCE
 VAR CONSTANT
@@ -220,7 +220,7 @@ Profiler_Array( START := FALSE );
 The result are 50µs for array iteration and 427µs for list iteration. A factor of 8.5 times slower. As long as the list isn't to big, this won't cause a big issue on modern hardware.
 
 ## Closing word
-Linked list bring some interesting possibilities to plc programming that before where hard to achieve because of the static memory allocation. The basic function blocks can be extended and reused in different ways. Some inspiration:
+Linked list bring some interesting possibilities to plc programming that were hard to achieve before because of the static memory allocation. The basic function blocks can be extended and reused in different ways. Some inspiration:
 * Have the master node embedded and encapsulated in every node, by defining it as `VAR_STAT` variable. This way the list is protected from outsiders. I like to see this as a *hivemind* in a swarm.
 * Mix node types in one list. Have a group of all actuators (servos, pneumatic valves, ...) in a machine station, and be able to reset them all.
 * Make it possible to link a node to multiple lists. This way you can group all actuators in a station, but also group all servos in the whole machine together to act on them.

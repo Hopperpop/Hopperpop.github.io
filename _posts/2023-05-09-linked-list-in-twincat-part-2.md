@@ -113,7 +113,7 @@ END_IF
 
 ### - mListRemove
 
-The `mListRemove` method checks also for valid interfaces, and just glues the previous and next node to each other. If the glueing is successfully it decrements the list size. Note that currently it doesn't checks if the given node is part of list. For example you can call this method on a master and give it a node from another list. The node will be removed from it's own list, but the length values won't be correct anymore for both lists. Normally the methods should only be called from within a node itself and be [`Internal`](https://infosys.beckhoff.com/content/1033/tc3_plc_intro/2530307467.html ) scoped, but as we are using interfaces we are limited to public methods. It wont cause any issues as long as it's not externally called.
+The `mListRemove` method checks also for valid interfaces, and just glues the previous and next node to each other. If the glueing is successful it decrements the list size. Note that currently it doesn't check if the given node is part of the list. For example you can call this method on a master and give it a node from another list. The node will be removed from it's own list, but the length values won't be correct anymore for both lists. Normally the methods should only be called from within a node itself and be [`Internal`](https://infosys.beckhoff.com/content/1033/tc3_plc_intro/2530307467.html ) scoped, but as we are using interfaces we are limited to public methods. It won't cause any issue as long as it's not externally called.
 
 ```iecst
 METHOD mListRemove : BOOL
@@ -154,7 +154,7 @@ END_IF
 As said before the list is zero indexed. To know the position of a node, you need to count from the master until you reach the node. When removing a node we have no idea where we are removing the node. The internal iterator could point to a node before or after the deleted node. That is why on successful removal we reset the iterator to the start to make sure we count correctly.
 
 ### - mListGetNode
-Now lets take a look at the most important method of the master `mListGetNode`. By calling this method with a given index, it will step through the list and return the interface of the node on that index. The last accessed node gets stored internally. When a second call happens, we now start from this node instead of the beginning. This will make iterating over the list with a `FOR` loop faster. To prevent accumulation of a index error (if they every happen), we always jump directly to the beginning when an index of 0 is requested. This also gives us a speed boost with restarting normal sequential iterations.
+Now lets take a look at the most important method of the master `mListGetNode`. By calling this method with a given index, it will step through the list and return the interface of the node on that index. The last accessed node gets stored internally. When a second call happens, we now start from this node instead of the beginning. This will make iterating over the list with a `FOR` loop faster. To prevent accumulation of a index error (if they ever happen), we always jump directly to the beginning when an index of 0 is requested. This also gives us a speed boost with restarting normal sequential iterations.
 
 ```iecst
 METHOD mListGetNode : ITF_LinkedList_Node
@@ -197,7 +197,7 @@ And with that we have the full code for our master.
 
 ---
 ## First program
-We can create a simple program to test out our FBs and see if they work in all occasions. By commenting in/out some nodes and making an online change, you can see that the list length variable changes correctly. We also double check this value by going over the full list. If the linking is broken, or some nodes aren't added the value of `i` wont match the list size.
+We can create a simple program to test out our FBs and see if they work in all occasions. By commenting in/out some nodes and making an online change, you can see that the list length variable changes correctly. We also double check this value by going over the full list. If the linking is broken, or some nodes aren't added the value of `i` won't match the list size.
 
 ```iecst
 PROGRAM MAIN
@@ -230,11 +230,11 @@ VAR
 	fbNodes:	ARRAY [0..LISTSIZE-1] OF FB_LinkedList_Node := [LISTSIZE(( p_LinkMaster := fbMaster))];
 ...
 ```
-Try to change the size now with an online change to ex. 5. You will see that master still reports a list size of 4 and similar for `i`. The new node in the array isn't added to the list. Do the same by decreasing the size to 3, and again nothing changes. **This is dangerous!** Because there is still a node in the list that still exist in memory (for now) but doesn't have a variable handle anymore. It could be that the same array is reused but just resized, or that a new array is created and we still pointing to the last element of the old array. Somehow we are still pointing to a memory location that could be overwritten anytime to contain something fully differently. We can expect to to trigger an exception anytime. 
+Try to change the size now with an online change to ex. 5. You will see that master still reports a list size of 4 and similar for `i`. The new node in the array isn't added to the list. Do the same by decreasing the size to 3, and again nothing changes. **This is dangerous!** Because there is still a node in the list that still exist in memory (for now) but doesn't have a variable handle anymore. It could be that the same array is reused but just resized, or that a new array is created and we are still pointing to the last element of the old array. Somehow we are still pointing to a memory location that could be overwritten anytime to contain something fully differently. We can expect to to trigger an exception anytime. 
 > Don't use this linked link implementation with arrays, or at least don't resize the arrays during online change!
 {: .prompt-warning }
 **Solution**
-: At the moment no solution is know for this problem. But it also doesn't make sense to use a linked list with arrays as we can simply use the array itself to iterate over the items. A linked list is more useful when function blocks are spread out over different parts of the program, but you still want to have access to them all.
+: At the moment no solution is known for this problem. But it also doesn't make sense to use a linked list with arrays as we can simply use the array itself to iterate over the items. A linked list is more useful when function blocks are spread out over different parts of the program, but you still want to have access to them all.
     
 **Cause**
 : When resizing an array, the `fb_init` and `fb_exit` method of all the function blocks are called  with a `bInCopyCode = TRUE`. CodeSys/TwinCAT doesn't differentiate between new elements or removed elements. If the array is copied, all the elements are flagged as copy, even the new ones. 
