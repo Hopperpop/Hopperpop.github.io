@@ -1,6 +1,7 @@
 table.hljs-ln {
   width: auto;
   border-width: 0px;
+  tab-size: 4;
 }
 table.hljs-ln td {
   border-width: 0px;
@@ -19,7 +20,7 @@ table.hljs-ln td {
   color: #ccc;
   border-right: 1px solid #CCC !important;
   vertical-align: top;
-    padding-right: 5px !important;
+  padding-right: 5px !important;
 }
   
 /* for block of code */
