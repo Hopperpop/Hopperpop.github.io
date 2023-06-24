@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Linked list in TwinCAT - Part 3
-date: 2023-05-10 13:06 +0000
 mermaid: true
 categories:
 - Automation
@@ -11,11 +10,12 @@ tags:
 - ST
 - OOP
 - Linked list
-image: /assets/img/LinkedList/LinkedList_Title.png
+image: "/assets/img/LinkedList/LinkedList_Title.png"
+date: 2023-07-04 00:00 +0000
 ---
 In the last part of this blog series, we use our linked list in basic application and test the performance of the extra overhead. All the code from this blog series can be found [here](https://github.com/Hopperpop/TcLinkedList).
-* Part 1 - Intro and node implementation
-* Part 2 - Master node implementation
+* [Part 1]({% post_url 2023-06-27-linked-list-in-twincat-part-1 %}) - Intro and node implementation
+* [Part 2]({% post_url 2023-06-30-linked-list-in-twincat-part-2 %}) - Master node implementation
 * Part 3 - Example use case
 
 

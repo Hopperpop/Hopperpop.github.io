@@ -11,8 +11,8 @@ tags:
 - Linked list
 - FB_init
 mermaid: true
-image: /assets/img/LinkedList/LinkedList_Title.png
-date: 2023-05-09 08:16 +0000
+image: "/assets/img/LinkedList/LinkedList_Title.png"
+date: 2023-06-27 00:00 +0000
 ---
 ---
 Object oriented programming brings many new patterns to PLC programming. Today I want to talk about one of them: **Linked lists**.

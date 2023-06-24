@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Linked list in TwinCAT - Part 2
-date: 2023-05-09 12:54 +0000
 categories:
 - Automation
 - IEC 61131-3
@@ -10,10 +9,11 @@ tags:
 - ST
 - OOP
 - Linked list
-image: /assets/img/LinkedList/LinkedList_Title.png
+image: "/assets/img/LinkedList/LinkedList_Title.png"
+date: 2023-06-30 00:00 +0000
 ---
 In part 1, we talked about how to implement a general node that can be used as a link in a linked list. This part is going to be about the master node who controls the full list.
-* Part 1 - Intro and node implementation
+* [Part 1]({% post_url 2023-06-27-linked-list-in-twincat-part-1 %}) - Intro and node implementation
 * Part 2 - Master node implementation
 * Part 3 - Example use case
 
