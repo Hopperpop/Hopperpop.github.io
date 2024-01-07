@@ -19,7 +19,7 @@ It's good to note that this guide is me sharing my own learning journey. Meaning
 Writing and building code in C++ for TwinCAT is only possible by using Visual Studio. The XAE shell doesn't support it, unless the module is fully build and you are only calling it.
 Make sure that the 'Desktop development with C++' is installed by going to `Tools > Get Tools and Features...` in VS.
 
-![VS_C++]({{ "/assets/img/Cplusplus/VS_Cplusplus_Modules.JPG" | relative_url }})
+![VS_C++]({{ "/assets/img/Cplusplus/VS_Cplusplus_Modules.jpg" | relative_url }})
 
 Code written in C++ for a TwinCAT system will run in the kernel space of the computer. For this reason the code needs to be signed to trace its origin. A self signed certificate can be used for development if the target is set to test mode. For production environments you will need to create a certificate that is counter signed by Beckhoff. For now we stay with a self signed certificate.
 
