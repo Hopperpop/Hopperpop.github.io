@@ -257,7 +257,7 @@ To understand how everything is handled during online changes, it's good to have
 * (2) A new instance is created and `FB_init` is called with `bInCopyCode := True`. The value of `bInCopyCode` is stored in `_bInCopyCode`.
 * (3) The external initial assignments are done, and the setter of `p_LinkMaster` is called with our defined master interface.
 * Because the local `_bInCopyCode` is true, nothing is set or done.
-* (5) All old values are copied to the new instance. Interfaces are automatically corrected by TwinCat, making the new instance still linked to its previous, next and master node.
+* (5) All old values are copied to the new instance. Interfaces are automatically corrected by TwinCAT, making the new instance still linked to its previous, next and master node.
 * (6) During `FB_reint` the local `_bInCopyCode` is reset. During code execution setting of `p_LinkMaster` is possible again.
 
 ## Slot word

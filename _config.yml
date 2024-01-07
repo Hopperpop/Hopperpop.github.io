@@ -20,7 +20,7 @@ tagline: Personal blog about automation # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   In this blog, I'll share my knowledge and talk about personal hobby projects that involve various areas, 
-  including LabView, TwinCat, Embedded systems, FPGA, and much more. 
+  including LabView, TwinCAT, Embedded systems, FPGA, and much more. 
   Join me as I explore the exciting world of automation and share my experiences and insights along the way.
 
 # Fill in the protocol & hostname for your site.
